@@ -10,6 +10,7 @@ public class Game extends Canvas implements Runnable {
     private static boolean running = false;
     private static final long SECOND = 1000/60;
     Player player = new Player();
+    Platform platform = new Platform();
     @Override
     public void run() {
         long lastTime = System.currentTimeMillis();
@@ -41,8 +42,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
         Sprite background = new Sprite("background.png");
         background.drawImage(g,0,0);
-        Sprite platform = new Sprite("platform1.png");
-        platform.drawImage(g, 300, 400);
+        platform.render(g);
         player.render(g);
         g.dispose();
         bs.show();

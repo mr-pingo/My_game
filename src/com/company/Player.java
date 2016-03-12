@@ -46,13 +46,13 @@ public class Player {
         }
     }
 
-    public void whoImage (int a, int b,int c) {      //для определения нужныж картинок анимации
+    private void whoImage (int a, int b,int c) {      //для определения нужныж картинок анимации
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
-    public void whoImage(int a){
+    private void whoImage(int a){
         this.a = a;
         b = a;
         c = a;
