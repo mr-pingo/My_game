@@ -26,6 +26,14 @@ public class Player {
         return y;
     }
 
+    public int getWidth(){
+        return animation[0].getWidth(null); // получение ширины картинки
+    }
+
+    public  int getHeight(){
+        return animation[0].getHeight(null); // получение высоты картинки
+    }
+
     public KeyHandler getKeyHandler() {
         return keyHandler;
     } // что бы работала клавиатура

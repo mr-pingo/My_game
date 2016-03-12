@@ -1,23 +1,40 @@
 package com.company;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by Малиновский Илья on 12.03.2016.
  */
 public class Platform {
 
-    private static int x;
-    private static int y;
-    private ArrayList<Image> imagesPlatforms = new ArrayList();
-    Sprite platform = new Sprite("platform1.png");
+    private int x;
+    private int y;
+    private static Sprite platform= new Sprite("platform1.png");
+    private static final int WIDTH = platform.getImage().getWidth(null);
+    private static final int HEIGHT = platform.getImage().getHeight(null);
 
-    public  Platform(){
-
+    public int getX() {
+        return x;
     }
 
-    public void drawImage(Graphics g,int x,int y){
+    public int getY() {
+        return y;
+    }
+
+    public static int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public static int getWIDTH() {
+        return WIDTH;
+    }
+
+    public  Platform(int x , int y){
+        this.x= x;
+        this.y= y;
+    }
+
+    public void drawImage(Graphics g){
         g.drawImage(platform.getImage(),x,y,null);
     }
 
