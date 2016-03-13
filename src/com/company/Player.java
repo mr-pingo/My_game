@@ -1,6 +1,8 @@
 package com.company;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Малиновский Илья on 10.03.2016.
@@ -11,12 +13,14 @@ public class Player {
     private int a;//
     private int b;// переменные для хранения номера картинки, для анимации
     private int c;//
-    private static final int START_Y_POSITION=403;
+    private static int START_Y_POSITION=403;
     private KeyHandler keyHandler = new KeyHandler();
     private int x=0;
     private int y=START_Y_POSITION;
     private int jump =0; // изменение координаты y при прыжке
     private float q=0; //переменная изменения cos
+    private Platform platform = new Platform();
+    ArrayList<Platform> arrayPlatforms = platform.getPlatforms();
 
     public int getX() {
         return x;
@@ -93,16 +97,35 @@ public class Player {
             x+=2;
         }
         if(keyHandler.isSpacepressent()==true){
-            if (q<3.2) {
+            if (q<1.57) {
                 float b = (float) Math.sin(q) * 100;
                 q += 0.11;
                 jump = (int) b;
             }
             else {
                 q = 0;
-                jump =0;
+                //jump =0;
+                System.out.println(jump);
                 keyHandler.setSpacepressent(false);
             }
         }
+        Iterator<Platform> i = arrayPlatforms.iterator();
+        while(i.hasNext()) {
+            Platform timePlatform = i.next();
+            if (((getX()+getWidth()) >=(timePlatform.getX()) && (x <= (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY()))) {
+                START_Y_POSITION = timePlatform.getY() - 74;
+                keyHandler.setSpacepressent(false);
+            }
+            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (y <= (timePlatform.getY()+timePlatform.getHEIGHT()))) {
+                keyHandler.setSpacepressent(false);
+            }
+            if ((y <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) >= (timePlatform.getX()))) {
+                x = timePlatform.getX()-getWidth();
+            }
+            if ((y <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x <= (timePlatform.getX()+timePlatform.getWIDTH()))) {
+                x = (timePlatform.getX()+timePlatform.getWIDTH());
+            }
+        }
     }
+
 }

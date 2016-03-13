@@ -19,15 +19,19 @@ public class Platform {
         return x;
     }
 
+    public ArrayList<Platform> getPlatforms() {
+        return platforms;
+    }
+
     public int getY() {
         return y;
     }
 
-    public static int getHEIGHT() {
+    public int getHEIGHT() {
         return HEIGHT;
     }
 
-    public static int getWIDTH() {
+    public int getWIDTH() {
         return WIDTH;
     }
 
