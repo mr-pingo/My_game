@@ -16,11 +16,8 @@ public class Player {
     private int x=0;
     private int y=403;
     private boolean playerGravity=false;
-    private int jump =0; // изменение координаты y при прыжке
-    private float alpfa=0; //переменная изменения cos
-    private float beta=1.56f; //переменная изменения cos
+    private int jump =21; // изменение координаты y при прыжке
     private Platform platform = new Platform();
-    private boolean isCollision = true;
     ArrayList<Platform> arrayPlatforms = platform.getPlatforms();
 
     public int getX() {
@@ -79,18 +76,9 @@ public class Player {
     }
 
     public void gravity(){
-        if(y<403) {
-            float b = (float) Math.cos(beta) * 10;
-            if (beta > 0) {
-                beta -= 0.11;
-                y += (int)b;
-            }
-            else
-                y += (int)b;
-            System.out.println(y);
+        if(playerGravity) {
+            y+=7;
         }
-        else
-            beta=1.65f;
     }
 
     public void render(Graphics g){
@@ -99,6 +87,10 @@ public class Player {
 
     public void update() {
         gravity();
+        if(y<403)
+            playerGravity=true;
+        else
+            playerGravity=false;
         if ((keyHandler.isLeftpressent() == false)) {
             whoImage(0);
         }
@@ -114,16 +106,13 @@ public class Player {
             x += 2;
         }
         if (keyHandler.isSpacepressent() == true) {
-            if (alpfa <1.56) {
-                playerGravity=true;
-                float b = (float) Math.cos(alpfa) * 10;
-                alpfa += 0.11;
-                y-=(int) b;
+            if (jump >0) {
+                y-=jump;
+                jump--;
             }
             else {
-                playerGravity=false;
                 keyHandler.setSpacepressent(false);
-                alpfa =0;
+                jump =21;
             }
         }
         Iterator<Platform> i = arrayPlatforms.iterator();
@@ -131,10 +120,12 @@ public class Player {
             Platform timePlatform = i.next();
             if (((getX()+getWidth()) >(timePlatform.getX())) && (x < (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
                 //условие что зайчик стоит на платформе
+                playerGravity=false;
             }
-            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() == (timePlatform.getY()+timePlatform.getHEIGHT()))) {
+            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())&& (getY() > (timePlatform.getY())))) {
                 //Условие что зайчик остановится ударившись головой об платформу
-               //keyHandler.setSpacepressent(false);
+               keyHandler.setSpacepressent(false);
+                jump=21;
             }
              if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
                     if(keyHandler.isRightpressent())
