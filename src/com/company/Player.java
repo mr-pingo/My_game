@@ -12,6 +12,7 @@ public class Player {
     private int a;//
     private int b;// переменные для хранения номера картинки, для анимации
     private int c;//
+    private int speed =2;
     private KeyHandler keyHandler = new KeyHandler();
     private int x=0;
     private int y=403;
@@ -42,8 +43,8 @@ public class Player {
 
     public Player(){
        animation = new Image[8];
-        for(int i=0;i<8;i++){
-            String index = i+1 + ".png";
+        for(int i=0;i<7;i++){
+            String index = i + ".png";
             animation[i]= (new Sprite(index).getImage());   //заполнение массива картинками
         }
     }
@@ -62,17 +63,22 @@ public class Player {
 
     int index=0;
     public void drawImage (Graphics g, int x, int y) {  // имитируем анимацию
-        if (index == 1)
-            g.drawImage(animation[a], x, y, null);
-        if (index == 2)
-            g.drawImage(animation[b], x, y, null);
-        if (index == 3)
-            g.drawImage(animation[c], x, y, null);
-        if (index == 4) {
-            g.drawImage(animation[b], x, y, null);
-            index = 0;
+        switch (index){
+            case 1:
+                g.drawImage(animation[a], x, y, null);
+                break;
+            case 5:
+                g.drawImage(animation[b], x, y, null);
+                break;
+            case 10:
+                g.drawImage(animation[c], x, y, null);
+                break;
+            case 15:
+                g.drawImage(animation[b], x, y, null);
+                index=0;
+                break;
         }
-        index++;
+        index+=5;
     }
 
     public void gravity(){
@@ -98,12 +104,12 @@ public class Player {
             whoImage(0);
         }
         if ((keyHandler.isLeftpressent() == true) && (x >= 2)) {
-            whoImage(4, 7, 5);
-            x -= 2;
+            whoImage(4, 5, 6);
+            x -= speed;
         }
         if (keyHandler.isRightpressent() == true && (x <= 754)) {
-            whoImage(1, 6, 2);
-            x += 2;
+            whoImage(1, 2, 3);
+            x += speed;
         }
         if (keyHandler.isSpacepressent() == true) {
             if (jump >0) {
@@ -129,13 +135,13 @@ public class Player {
             }
              if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
                     if(keyHandler.isRightpressent())
-                    x-=2;
+                    x-=speed;
                 //условие что зайчик отсановится слева
             }
             if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
                 //условие что зайчик отсановится справа
                 if(keyHandler.isLeftpressent())
-                    x+=2;
+                    x+=speed;
             }
         }
     }

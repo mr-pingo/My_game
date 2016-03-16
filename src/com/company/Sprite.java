@@ -2,6 +2,7 @@ package com.company;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -9,13 +10,13 @@ import java.io.IOException;
  * Created by Малиновский Илья on 09.03.2016.
  */
 public class Sprite {
-    public static final String DIRECTORY = "res/";
+    private static final String DIRECTORY = "res/";
 
-    public Image getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
-    private Image image;
+    private BufferedImage image;
     public Sprite (String filename) {
        image = null;
         try {

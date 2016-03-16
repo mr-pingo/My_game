@@ -9,8 +9,9 @@ public class Game extends Canvas implements Runnable {
     public static final int HEALTH = 600;
     private static boolean running = false;
     private static final long SECOND = 1000/60;
-    Player player = new Player();
-    Platform platform = new Platform();
+    private Sprite background = new Sprite("background.png");
+    private Player player = new Player();
+    private Platform platform = new Platform();
     @Override
     public void run() {
         long lastTime = System.currentTimeMillis();
@@ -22,9 +23,7 @@ public class Game extends Canvas implements Runnable {
             now = System.currentTimeMillis() - lastTime;
             lastTime = System.currentTimeMillis();
             delta+=(now / SECOND);
-            if (delta >= 1) {
-                update(delta);
-            }
+            update(delta);
             render();
         }
     }
@@ -40,7 +39,6 @@ public class Game extends Canvas implements Runnable {
            return ;
        }
         Graphics g = bs.getDrawGraphics();
-        Sprite background = new Sprite("background.png");
         background.drawImage(g,0,0);
         platform.render(g);
         player.render(g);
@@ -48,6 +46,14 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
     public void update(long delta){
-        player.update();
+        if (delta >= 1) {
+            player.update();
+            delta--;
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
