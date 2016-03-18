@@ -63,22 +63,17 @@ public class Player {
 
     int index=0;
     public void drawImage (Graphics g, int x, int y) {  // имитируем анимацию
-        switch (index){
-            case 1:
-                g.drawImage(animation[a], x, y, null);
-                break;
-            case 5:
-                g.drawImage(animation[b], x, y, null);
-                break;
-            case 10:
-                g.drawImage(animation[c], x, y, null);
-                break;
-            case 15:
-                g.drawImage(animation[b], x, y, null);
-                index=0;
-                break;
+       if(index>=0 && index<5)
+           g.drawImage(animation[a], x, y, null);
+        if(index>=5 && index<10)
+            g.drawImage(animation[b], x, y, null);
+        if(index>=10 && index<15)
+            g.drawImage(animation[c], x, y, null);
+        if(index>=15 && index<=20){
+            g.drawImage(animation[b], x, y, null);
+            index=0;
         }
-        index+=5;
+        index++;
     }
 
     public void gravity(){

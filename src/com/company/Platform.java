@@ -48,7 +48,8 @@ public class Platform {
         platforms.add(new Platform(300,400));
         platforms.add(new Platform(600,350));
         platforms.add(new Platform(400,200));
-        platforms.add(new Platform(150,150));
+        platforms.add(new Platform(175,150));
+        platforms.add(new Platform(100,100));
 
     }
 
