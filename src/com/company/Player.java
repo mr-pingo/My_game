@@ -4,20 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Created by Малиновский Илья on 10.03.2016.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ on 10.03.2016.
  */
 public class Player {
 
-    private Image[] animation; //массив картинок для анимации
+    private Image[] animation; //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private int a;//
-    private int b;// переменные для хранения номера картинки, для анимации
+    private int b;// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private int c;//
     private int speed =2;
     private KeyHandler keyHandler = new KeyHandler();
     private int x=0;
     private int y=403;
     private boolean playerGravity=false;
-    private int jump =21; // изменение координаты y при прыжке
+    private int jump =21;// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ y пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    private boolean space=false;
     private Platform platform = new Platform();
     ArrayList<Platform> arrayPlatforms = platform.getPlatforms();
 
@@ -30,26 +31,26 @@ public class Player {
     }
 
     public int getWidth(){
-        return animation[0].getWidth(null); // получение ширины картинки
+        return animation[0].getWidth(null); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public  int getHeight(){
-        return animation[0].getHeight(null); // получение высоты картинки
+        return animation[0].getHeight(null); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public KeyHandler getKeyHandler() {
         return keyHandler;
-    } // что бы работала клавиатура
+    } // пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     public Player(){
        animation = new Image[8];
         for(int i=0;i<7;i++){
             String index = i + ".png";
-            animation[i]= (new Sprite(index).getImage());   //заполнение массива картинками
+            animation[i]= (new Sprite(index).getImage());   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
     }
 
-    private void whoImage (int a, int b,int c) {      //для определения нужныж картинок анимации
+    private void whoImage (int a, int b,int c) {      //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         this.a = a;
         this.b = b;
         this.c = c;
@@ -62,7 +63,7 @@ public class Player {
     }
 
     int index=0;
-    public void drawImage (Graphics g, int x, int y) {  // имитируем анимацию
+    public void drawImage (Graphics g, int x, int y) {  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
        if(index>=0 && index<5)
            g.drawImage(animation[a], x, y, null);
         if(index>=5 && index<10)
@@ -82,16 +83,26 @@ public class Player {
         }
     }
 
+    public void jump (boolean space){
+        if (space) {
+            if (jump >0) {
+                y-=jump;
+                jump--;
+            }
+            else {
+                this.space=false;
+                jump =21;
+            }
+        }
+    }
+
     public void render(Graphics g){
         drawImage(g,x,y);
     }
 
     public void update() {
         gravity();
-        if(y<403)
-            playerGravity=true;
-        else
-            playerGravity=false;
+
         if ((keyHandler.isLeftpressent() == false)) {
             whoImage(0);
         }
@@ -106,35 +117,36 @@ public class Player {
             whoImage(1, 2, 3);
             x += speed;
         }
-        if (keyHandler.isSpacepressent() == true) {
-            if (jump >0) {
-                y-=jump;
-                jump--;
-            }
-            else {
-                keyHandler.setSpacepressent(false);
-                jump =21;
-            }
+        if (keyHandler.isSpacepressent() == true && !playerGravity) {
+            space = true;
         }
+
+        jump(space);
+
+        if(y<403)
+            playerGravity=true;
+        else
+            playerGravity=false;
+
         Iterator<Platform> i = arrayPlatforms.iterator();
         while(i.hasNext()) {
             Platform timePlatform = i.next();
             if (((getX()+getWidth()) >(timePlatform.getX())) && (x < (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
-                //условие что зайчик стоит на платформе
+                //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 playerGravity=false;
             }
             if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())&& (getY() > (timePlatform.getY())))) {
-                //Условие что зайчик остановится ударившись головой об платформу
-               keyHandler.setSpacepressent(false);
+                //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                space=false;
                 jump=21;
             }
              if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
                     if(keyHandler.isRightpressent())
                     x-=speed;
-                //условие что зайчик отсановится слева
+                //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             }
             if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
-                //условие что зайчик отсановится справа
+                //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 if(keyHandler.isLeftpressent())
                     x+=speed;
             }

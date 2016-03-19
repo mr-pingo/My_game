@@ -45,6 +45,8 @@ public class KeyHandler extends KeyAdapter {
             leftpressent=false;
         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
             rightpressent=false;
+        if(e.getKeyCode() == KeyEvent.VK_SPACE)
+            spacepressent=false;
     }
 }
 
