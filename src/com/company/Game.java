@@ -2,16 +2,17 @@ package com.company;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 800;
-    public static final int HEALTH = 600;
+
     private static boolean running = false;
     private static final long SECOND = 1000/60;
-    private Sprite background = new Sprite("background.png");
+    private Sprite background = new Sprite("background.jpg");
     private Player player = new Player();
     private Platform platform = new Platform();
+    Sound sound = new Sound(new File("res/Pin.wav"));
     @Override
     public void run() {
         long lastTime = System.currentTimeMillis();
@@ -28,8 +29,9 @@ public class Game extends Canvas implements Runnable {
         }
     }
     public synchronized void  start() {
-    running = true;
-            new Thread(this).start();
+        running = true;
+        sound.play();
+        new Thread(this).start();
     }
     public void render() {
         BufferStrategy bs = getBufferStrategy();

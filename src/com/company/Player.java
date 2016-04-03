@@ -11,11 +11,12 @@ public class Player {
     private Image[] animation; //������ �������� ��� ��������
     private int a;//
     private int b;// ���������� ��� �������� ������ ��������, ��� ��������
-    private int c;//
+    private int c;
+    private int d;
     private int speed =2;
     private KeyHandler keyHandler = new KeyHandler();
     private int x=0;
-    private int y=403;
+    private int y=415;
     private boolean playerGravity=false;
     private int jump =21;// ��������� ���������� y ��� ������
     private boolean space=false;
@@ -43,23 +44,25 @@ public class Player {
     } // ��� �� �������� ����������
 
     public Player(){
-       animation = new Image[8];
-        for(int i=0;i<7;i++){
+       animation = new Image[9];
+        for(int i=0;i<9;i++){
             String index = i + ".png";
             animation[i]= (new Sprite(index).getImage());   //���������� ������� ����������
         }
     }
 
-    private void whoImage (int a, int b,int c) {      //��� ����������� ������ �������� ��������
+    private void whoImage (int a, int b,int c,int d) {      //��� ����������� ������ �������� ��������
         this.a = a;
         this.b = b;
         this.c = c;
+        this.d = d;
     }
 
     private void whoImage(int a){
         this.a = a;
         b = a;
         c = a;
+        d=a;
     }
 
     int index=0;
@@ -70,7 +73,11 @@ public class Player {
             g.drawImage(animation[b], x, y, null);
         if(index>=10 && index<15)
             g.drawImage(animation[c], x, y, null);
-        if(index>=15 && index<=20){
+        if(index>=15 && index<20)
+            g.drawImage(animation[d], x, y, null);
+        if(index>=20 && index<25)
+            g.drawImage(animation[c], x, y, null);
+        if(index>=25 && index<=30) {
             g.drawImage(animation[b], x, y, null);
             index=0;
         }
@@ -110,11 +117,11 @@ public class Player {
             whoImage(0);
         }
         if ((keyHandler.isLeftpressent() == true) && (x >= 2)) {
-            whoImage(4, 5, 6);
+            whoImage(5, 6, 7,8);
             x -= speed;
         }
-        if (keyHandler.isRightpressent() == true && (x <= 754)) {
-            whoImage(1, 2, 3);
+        if (keyHandler.isRightpressent() == true && (x <= 1236)) {
+            whoImage(1, 2, 3, 4);
             x += speed;
         }
         if (keyHandler.isSpacepressent() == true && !playerGravity) {
@@ -123,7 +130,7 @@ public class Player {
 
         jump(space);
 
-        if(y<403)
+        if(y<415)
             playerGravity=true;
         else
             playerGravity=false;

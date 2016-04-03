@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by Малиновский Илья on 09.03.2016.
+ * Created by ??????????? ???? on 09.03.2016.
  */
 public class Sprite {
     private static final String DIRECTORY = "res/";
