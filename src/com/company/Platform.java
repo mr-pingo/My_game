@@ -6,64 +6,33 @@ import java.util.ArrayList;
 /**
  * Created by ??????????? ???? on 12.03.2016.
  */
-public class Platform {
+public abstract class Platform {
 
-    private int x;
-    private int y;
-    private static Sprite platform= new Sprite("platform1.png");
-    private static final int WIDTH = platform.getImage().getWidth(null);
-    private static final int HEIGHT = platform.getImage().getHeight(null);
-
-    public ArrayList<Platform> getPlatforms() {
+    public static ArrayList<Platform> addPlatforms(){
+        ArrayList<Platform> platforms = new ArrayList<>();
+        platforms.add(new LongPlatform(232,404));
+        platforms.add(new ShortPlatform(467,315));
+        platforms.add(new LongPlatform(516,207));
+        platforms.add(new MovePlatformX(300,144));
+        platforms.add(new ShortPlatform(85,67));
+        platforms.add(new ShortPlatform(22,251));
+        platforms.add(new ShortPlatform(801,114));
+        platforms.add(new MovePlatformY(995,174));
+        platforms.add(new ShortPlatform(875,314));
+        platforms.add(new ShortPlatform(1129,66));
         return platforms;
     }
+    public abstract int getHEIGHT();
 
-    ArrayList<Platform> platforms = new ArrayList<>();
+    public abstract int getWIDTH();
 
-    public int getX() {
-        return x;
-    }
+    public abstract int getX();
 
-    public int getY() {
-        return y;
-    }
+    public abstract int getY();
 
-    public int getHEIGHT() {
-        return HEIGHT;
-    }
+    public abstract void drawImage(Graphics g);
 
-    public int getWIDTH() {
-        return WIDTH;
-    }
-
-    public Platform(){  // ?????, ?? ???????!
-        addPlatforms();
-    }
-
-    public  Platform(int x , int y){
-        this.x= x;
-        this.y= y;
-    }
-
-    private void addPlatforms(){ //?????????? ???????? ? ?????????
-        platforms.add(new Platform(232,404));
-        platforms.add(new Platform(467,315));
-        platforms.add(new Platform(516,207));
-        platforms.add(new Platform(321,144));
-        platforms.add(new Platform(85,67));
-        platforms.add(new Platform(22,251));
-        platforms.add(new Platform(801,114));
-        platforms.add(new Platform(995,174));
-        platforms.add(new Platform(875,314));
-        platforms.add(new Platform(1129,66));
-
-    }
-
-    public void drawImage(Graphics g){
-        g.drawImage(platform.getImage(),x,y,null);
-    }
-
-    public void render(Graphics g){  //???? foreach ??? ??????????? ?? ?????????
+    public static void render(Graphics g,ArrayList<Platform> platforms){  //???? foreach ??? ??????????? ?? ?????????
         for (Platform platform1 :platforms) {
             platform1.drawImage(g);
         }

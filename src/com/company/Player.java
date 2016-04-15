@@ -8,9 +8,9 @@ import java.util.Iterator;
  */
 public class Player {
 
-    private Image[] animation; //������ �������� ��� ��������
-    private int a;//
-    private int b;// ���������� ��� �������� ������ ��������, ��� ��������
+    private Image[] animation;
+    private int a;
+    private int b;
     private int c;
     private int d;
     private int speed =2;
@@ -18,10 +18,9 @@ public class Player {
     private int x=0;
     private int y=415;
     private boolean playerGravity=false;
-    private int jump =21;// ��������� ���������� y ��� ������
+    private int jump =21;
     private boolean space=false;
-    private Platform platform = new Platform();
-    ArrayList<Platform> arrayPlatforms = platform.getPlatforms();
+    private int index=0;
 
     public int getX() {
         return x;
@@ -32,26 +31,26 @@ public class Player {
     }
 
     public int getWidth(){
-        return animation[0].getWidth(null); // ��������� ������ ��������
+        return animation[0].getWidth(null);
     }
 
     public  int getHeight(){
-        return animation[0].getHeight(null); // ��������� ������ ��������
+        return animation[0].getHeight(null);
     }
 
     public KeyHandler getKeyHandler() {
         return keyHandler;
-    } // ��� �� �������� ����������
+    }
 
     public Player(){
        animation = new Image[9];
         for(int i=0;i<9;i++){
             String index = i + ".png";
-            animation[i]= (new Sprite(index).getImage());   //���������� ������� ����������
+            animation[i]= (new Sprite(index).getImage());
         }
     }
 
-    private void whoImage (int a, int b,int c,int d) {      //��� ����������� ������ �������� ��������
+    private void whoImage (int a, int b,int c,int d) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -65,7 +64,7 @@ public class Player {
         d=a;
     }
 
-    int index=0;
+
     public void drawImage (Graphics g, int x, int y) {  // ��������� ��������
        if(index>=0 && index<5)
            g.drawImage(animation[a], x, y, null);
@@ -103,6 +102,36 @@ public class Player {
         }
     }
 
+    public void physics(){
+        Iterator<Platform> i = Game.arrayplatform.iterator();
+        while(i.hasNext()) {
+            Platform timePlatform = i.next();
+            if (((getX()+getWidth()) >(timePlatform.getX())) && (x < (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
+                //������� ��� ������ ����� �� ���������
+                playerGravity=false;
+                y=timePlatform.getY()-getHeight();
+                if ((timePlatform.getY()==144)&&(timePlatform.getX()>=249)&&(timePlatform.getX()<=354)) {
+                    x += (int)(Math.cos(MovePlatformX.a)*2);
+                }
+            }
+//            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())&& (getY() > (timePlatform.getY())))) {
+//                //������� ��� ������ ����������� ���������� ������� �� ���������
+//                space=false;
+//                jump=21;
+//            }
+            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
+                if(keyHandler.isRightpressent())
+                    x-=speed;
+                //������� ��� ������ ����������� �����
+            }
+            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
+                //������� ��� ������ ����������� ������
+                if(keyHandler.isLeftpressent())
+                    x+=speed;
+            }
+        }
+    }
+
     public void render(Graphics g){
         drawImage(g,x,y);
     }
@@ -135,28 +164,6 @@ public class Player {
         else
             playerGravity=false;
 
-        Iterator<Platform> i = arrayPlatforms.iterator();
-        while(i.hasNext()) {
-            Platform timePlatform = i.next();
-            if (((getX()+getWidth()) >(timePlatform.getX())) && (x < (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
-                //������� ��� ������ ����� �� ���������
-                playerGravity=false;
-            }
-            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())&& (getY() > (timePlatform.getY())))) {
-                //������� ��� ������ ����������� ���������� ������� �� ���������
-                space=false;
-                jump=21;
-            }
-             if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
-                    if(keyHandler.isRightpressent())
-                    x-=speed;
-                //������� ��� ������ ����������� �����
-            }
-            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
-                //������� ��� ������ ����������� ������
-                if(keyHandler.isLeftpressent())
-                    x+=speed;
-            }
-        }
+        physics();
     }
 }

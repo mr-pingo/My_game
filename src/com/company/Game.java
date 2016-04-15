@@ -3,6 +3,7 @@ package com.company;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Game extends Canvas implements Runnable {
 
@@ -10,8 +11,9 @@ public class Game extends Canvas implements Runnable {
     private static boolean running = false;
     private static final long SECOND = 1000/60;
     private Sprite background = new Sprite("background.jpg");
+    public static ArrayList<Platform> arrayplatform = Platform.addPlatforms();
     private Player player = new Player();
-    private Platform platform = new Platform();
+
     Sound sound = new Sound(new File("res/Pin.wav"));
     @Override
     public void run() {
@@ -42,7 +44,7 @@ public class Game extends Canvas implements Runnable {
        }
         Graphics g = bs.getDrawGraphics();
         background.drawImage(g,0,0);
-        platform.render(g);
+        Platform.render(g,arrayplatform);
         player.render(g);
         g.dispose();
         bs.show();
