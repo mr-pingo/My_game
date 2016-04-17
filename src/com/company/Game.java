@@ -12,6 +12,8 @@ public class Game extends Canvas implements Runnable {
     private static final long SECOND = 1000/60;
     private Sprite background = new Sprite("background.jpg");
     public static ArrayList<Platform> arrayplatform = Platform.addPlatforms();
+    public static Ladder ladder1 = new Ladder(103,67);
+    public static Ladder ladder2 = new Ladder(924,314);
     private Player player = new Player();
 
     Sound sound = new Sound(new File("res/Pin.wav"));
@@ -45,6 +47,8 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
         background.drawImage(g,0,0);
         Platform.render(g,arrayplatform);
+        ladder1.drawImage(g);
+        ladder2.drawImage(g);
         player.render(g);
         g.dispose();
         bs.show();

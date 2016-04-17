@@ -21,6 +21,7 @@ public class Player {
     private int jump =21;
     private boolean space=false;
     private int index=0;
+    private int down = 0;
 
     public int getX() {
         return x;
@@ -130,6 +131,37 @@ public class Player {
                     x+=speed;
             }
         }
+        if(((getX()+getWidth()<=Game.ladder1.getX()+Game.ladder1.getWIDTH())&&(getX()>=Game.ladder1.getX())&&(getY()<=Game.ladder1.getY()+Game.ladder1.getHEIGHT())&&(getY()+getHeight()>=Game.ladder1.getY()))||
+        ((getX()+getWidth()<=Game.ladder2.getX()+Game.ladder2.getWIDTH())&&(getX()>=Game.ladder2.getX())&&(getY()<=Game.ladder2.getY()+Game.ladder2.getHEIGHT())&&(getY()+getHeight()>=Game.ladder2.getY()))) {
+            if(keyHandler.isDownpressent()&&(getY()<=415)&&(((getY()+getHeight()<Game.ladder1.getY()+Game.ladder1.getHEIGHT()-2)&&(getY()+getHeight()>=Game.ladder1.getY()))||
+                    (getY()+getHeight()<Game.ladder2.getY()+Game.ladder2.getHEIGHT())&&(getY()+getHeight()>=Game.ladder2.getY()))) {
+                if(!playerGravity) {
+                    if(down == 0) {
+                        down = y;
+                    }
+                    y = down + speed;
+                    down = y;
+                }
+                else {
+                    down = 0;
+                    y += speed;
+                }
+            }
+            if (keyHandler.isUppressent() == true) {
+                y-=speed;
+            }
+            if(playerGravity&&!space) {
+                y-=7;
+                if(keyHandler.isLeftpressent() == true){
+                    x+=speed;
+                }
+                if(keyHandler.isRightpressent() == true) {
+                    x -= speed;
+                }
+            }
+        }
+        else
+            down = 0;
     }
 
     public void render(Graphics g){
