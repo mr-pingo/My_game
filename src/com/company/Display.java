@@ -7,6 +7,7 @@ import java.awt.*;
 public class Display  {
     private  static JFrame window;
     private static Canvas content;
+    public static JLabel label= new JLabel("Score: 0");
 
     public Display(String GAME_NAME , int WIDTH, int HEIDHT, Game game){
         window = new JFrame(GAME_NAME);

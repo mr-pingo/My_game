@@ -1,7 +1,7 @@
 package com.company;
 
 import java.awt.*;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Ilya Malinovskiy on 13.04.2016.
@@ -9,33 +9,127 @@ import java.util.Random;
 public class Bamboo {
     private int x;
     private int y;
+    private int time=0;
     private static Sprite sprite = new Sprite("Bambukovaya_palochka.png");
     private boolean bambooGravity = false;
-    private static final int WIDTH = sprite.getImage().getWidth(null);
-    private static final int HEIGHT = sprite.getImage().getHeight(null);
-    Random rnd = new Random();
+    public static int score = 0;
+    public static int penalty =0;
+    private final int WIDTH = sprite.getImage().getWidth(null);
+    private final int HEIGHT = sprite.getImage().getHeight(null);
+    private Random rnd = new Random();
+    private Timer timer = new Timer();
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            time++;
+            System.out.println(time);
+            if(time==7){
+                deleteBamboo();
+                penalty++;
+                time =0;
+                if(Game.arrayBamboo.size()==0)
+                    addBamboo();
+                if(penalty==3) {
+                    Player.health--;
+                    penalty=0;
+                }
+                stopTimer();
+            }
+        }
+    };
 
     public Bamboo() {
         x=rnd.nextInt(1280-WIDTH);
         y=rnd.nextInt(480-HEIGHT);
+        timer.schedule(task,1000,1000);
     }
+
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
+    }
+
+    public int getX() {
+
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void gravity(){
         if(bambooGravity) {
-            y+=7;
+            y+=3;
+        }
+    }
+
+    public static void addBamboo(){
+            Game.arrayBamboo.add(new Bamboo());
+        if(score>=5)
+            Game.arrayBamboo.add(new Bamboo());
+        if(score>=10)
+            Game.arrayBamboo.add(new Bamboo());
+    }
+
+    public void physics() {
+        Iterator<Platform> i = Game.arrayplatform.iterator();
+        while (i.hasNext()) {
+            Platform timePlatform = i.next();
+            if (((getX() + getWidth()) > (timePlatform.getX())) && (x < (timePlatform.getX() + timePlatform.getWIDTH())) && ((getY() + getHeight()) >= timePlatform.getY()) && ((getY() + getHeight()) <= (timePlatform.getY() + timePlatform.getHEIGHT()))) {
+                bambooGravity = false;
+                y = timePlatform.getY() - getHeight();
+                if ((timePlatform.getY() == 144) && (timePlatform.getX() >= 249) && (timePlatform.getX() <= 354)) {
+                    x += (int) (Math.cos(MovePlatformX.a) * 2);
+                }
+            }
+        }
+    }
+
+    public static void takeBamboo(Bamboo bamboo){
+        if(Game.arrayBamboo.size()>1) {
+            Game.arrayBamboo.remove(bamboo);
+            score++;
+            bamboo.stopTimer();
+         }
+        else {
+            Game.arrayBamboo.remove(bamboo);
+            score++;
+            addBamboo();
+            bamboo.stopTimer();
+        }
+    }
+
+    public void deleteBamboo(){
+        Game.arrayBamboo.remove(this);
+    }
+
+    public void drawImage(Graphics g) {
+        g.drawImage(sprite.getImage(),x,y,null);
+    }
+
+    public void stopTimer(){
+        timer.cancel();
+    }
+
+    public static void render(Graphics g) {
+        for (Bamboo bamboo1 : Game.arrayBamboo) {
+            bamboo1.drawImage(g);
         }
     }
 
 
-
-    public void render(Graphics g){
-        g.drawImage(sprite.getImage(),x,y,null);
-    }
-
     public void update(){
        gravity();
-        if(y<415)
+        if(y<440)
             bambooGravity=true;
         else
             bambooGravity=false;
+        physics();
+        if(Game.running==false)
+            stopTimer();
     }
 }
