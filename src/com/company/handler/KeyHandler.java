@@ -28,16 +28,20 @@ public class KeyHandler extends KeyAdapter {
         return downpressent;
     }
 
+    public boolean isEscpressent() {
+        return escpressent;
+    }
+
     private boolean leftpressent =false;
     private boolean rightpressent =false;
     private boolean spacepressent = false;
     private boolean uppressent = false;
     private boolean downpressent = false;
+    private boolean escpressent = false;
 
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if(e.getKeyCode() == KeyEvent.VK_LEFT)
             leftpressent = true;
-        }
         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
             rightpressent=true;
         if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -46,6 +50,8 @@ public class KeyHandler extends KeyAdapter {
             uppressent=true;
         if(e.getKeyCode() == KeyEvent.VK_DOWN)
             downpressent=true;
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            escpressent = true;
     }
 
     @Override
@@ -60,6 +66,9 @@ public class KeyHandler extends KeyAdapter {
             uppressent=false;
         if(e.getKeyCode() == KeyEvent.VK_DOWN)
             downpressent=false;
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            escpressent =false;
     }
+
 }
 

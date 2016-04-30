@@ -25,19 +25,22 @@ public class Bamboo {
     private Timer timer = new Timer();
     private TimerTask task = new TimerTask() {
         @Override
-        public void run() {
-            time++;
-            if(time==7){
-                deleteBamboo();
-                penalty++;
-                time =0;
-                if(Game.arrayBamboo.size()==0)
-                    addBamboo();
-                if(penalty==3) {
-                    Player.health--;
-                    penalty=0;
+        public  void run() {
+            if (!Game.isPause) {
+                time++;
+                System.out.println(time);
+                if (time == 7) {
+                    deleteBamboo();
+                    penalty++;
+                    time = 0;
+                    if (Game.arrayBamboo.size() == 0)
+                        addBamboo();
+                    if (penalty == 3) {
+                        Player.health--;
+                        penalty = 0;
+                    }
+                    stopTimer();
                 }
-                stopTimer();
             }
         }
     };

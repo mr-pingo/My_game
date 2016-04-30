@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable,Scene {
     public static Ladder ladder2 = new Ladder(924,314);
     private Player player = new Player();
     public static ArrayList<Bamboo> arrayBamboo=new ArrayList<>();
+    public static boolean isPause = false;
     Sound sound = new Sound(new File("res/Pin.wav"));
     Thread game =new Thread(this);
 
@@ -83,6 +84,15 @@ public class Game extends Canvas implements Runnable,Scene {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if(player.getKeyHandler().isEscpressent()){
+                isPause=true;
+                try {
+                    Thread.sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                isPause=false;
             }
             if(Player.health==0)
                 running=false;

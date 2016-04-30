@@ -27,6 +27,12 @@ public class Sprite {
 
     }
 
+    public int getwidth(){
+        return image.getWidth(null);
+    }
+    public int getheight(){
+        return image.getHeight(null);
+    }
 
     public void drawImage (Graphics g, int x, int y) {
         g.drawImage(image, x , y, null);
