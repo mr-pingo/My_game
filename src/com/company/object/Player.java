@@ -13,16 +13,32 @@ import java.util.Iterator;
  */
 public class Player {
 
-    public static Animation animation = new Animation();
-    private int speed =2;
+    public static Animation animation;
+    private int speed;
     private KeyHandler keyHandler = new KeyHandler();
-    private static int x=0;
-    private static int y=415;
-    private boolean playerGravity=false;
-    private int jump =21;
-    private boolean space=false;
-    private int down = 0;
-    public static int health = 3;
+    private static int x;
+    private static int y;
+    private boolean playerGravity;
+    private int jump;
+    private boolean space;
+    private int down;
+    public static int health;
+    public static int score;
+    public static int penalty;
+
+    public Player(){
+        animation= new Animation();
+        speed=2;
+        x=0;
+        y=415;
+        playerGravity=false;
+        jump=21;
+        space=false;
+        down=0;
+        health=3;
+        score=0;
+        penalty=0;
+    }
 
     public static int getX() {
         return x;

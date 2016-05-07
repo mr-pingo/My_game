@@ -1,5 +1,6 @@
 package com.company.screen;
 
+import com.company.Main;
 import com.company.graphics.GameControlPanel;
 import com.company.graphics.Sprite;
 import com.company.object.Bamboo;
@@ -12,22 +13,36 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Game extends Canvas implements Runnable,Scene {
 
 
-    public static boolean running = false;
+    public static boolean running;
     private static final long SECOND = 1000/60;
     private Sprite background = new Sprite("background.jpg");
-    public static ArrayList<Platform> arrayplatform = Platform.addPlatforms();
-    public static Ladder ladder1 = new Ladder(103,67);
-    public static Ladder ladder2 = new Ladder(924,314);
-    private Player player = new Player();
-    public static ArrayList<Bamboo> arrayBamboo=new ArrayList<>();
-    public static boolean isPause = false;
-    Sound sound = new Sound(new File("res/Pin.wav"));
-    Thread game =new Thread(this);
+    public static ArrayList<Platform> arrayplatform;
+    public static Ladder ladder1 ;
+    public static Ladder ladder2 ;
+    private Player player;
+    public static ArrayList<Bamboo> arrayBamboo;
+    public static boolean isPause;
+    Sound sound;
+    Thread game;
+
+    public Game(){
+        running= false;
+        arrayplatform= Platform.addPlatforms();
+        ladder1= new Ladder(103,67);
+        ladder2= new Ladder(924,314);
+        player = new Player();
+        arrayBamboo=new ArrayList<>();
+        isPause = false;
+        sound= new Sound(new File("res/Pin.wav"));
+        game= new Thread(this);
+    }
 
     @Override
     public void run() {
@@ -43,7 +58,7 @@ public class Game extends Canvas implements Runnable,Scene {
             render(Display.bs);
         }
     }
-    public synchronized void  start() {
+    public synchronized void startMenu() {
         running = true;
         sound.play();
         Bamboo.addBamboo();
@@ -51,13 +66,16 @@ public class Game extends Canvas implements Runnable,Scene {
     }
 
     public synchronized void stop(){
-        try {
-            game.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         running=false;
-
+        sound.stop();
+            game.stop();
+        player=null;
+        arrayBamboo=null;
+        background=null;
+        arrayplatform=null;
+        ladder1=null;
+        ladder2=null;
+        sound=null;
     }
     public void render(BufferStrategy bs) {
         Graphics g = bs.getDrawGraphics();
@@ -87,16 +105,13 @@ public class Game extends Canvas implements Runnable,Scene {
             }
             if(player.getKeyHandler().isEscpressent()){
                 isPause=true;
-                try {
-                    Thread.sleep(6000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                Main.menu.startMenu();
+                stop();
                 }
-                isPause=false;
+                //isPause=false;
             }
             if(Player.health==0)
                 running=false;
 
         }
     }
-}

@@ -18,7 +18,7 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
     public  static  boolean isScoreButton=false;
     public  static  boolean isExitButton=false;
     private Sprite background;
-    Thread menu = new Thread(this);
+    Thread thread;
 
     public GeneralMenu() {
         background= new Sprite("menu.jpg");
@@ -37,16 +37,17 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
 
 
     @Override
-    public synchronized void start() {
+    public synchronized void startMenu() {
         running=true;
-        menu.start();
+        thread=new Thread(this);
+        thread.start();
 
     }
 
     @Override
     public synchronized void stop() {
         running=false;
-            menu.stop();
+            thread.stop();
 
     }
 
@@ -72,7 +73,7 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
 
     public void startGame(){
         Game game = new Game();
-        game.start();
+        game.startMenu();
         removeMouseListener(this);
         removeMouseMotionListener(this);
         stop();

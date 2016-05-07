@@ -17,8 +17,6 @@ public class Bamboo {
     private int time=0;
     private static Sprite sprite = new Sprite("Bambukovaya_palochka.png");
     private boolean bambooGravity = false;
-    public static int score = 0;
-    public static int penalty =0;
     private final int WIDTH = sprite.getImage().getWidth(null);
     private final int HEIGHT = sprite.getImage().getHeight(null);
     private Random rnd = new Random();
@@ -26,22 +24,25 @@ public class Bamboo {
     private TimerTask task = new TimerTask() {
         @Override
         public  void run() {
-            if (!Game.isPause) {
+            if (Game.isPause) {
+                stopTimer();
+                deleteBamboo();
+            }
                 time++;
                 System.out.println(time);
                 if (time == 7) {
                     deleteBamboo();
-                    penalty++;
+                    Player.penalty++;
                     time = 0;
                     if (Game.arrayBamboo.size() == 0)
                         addBamboo();
-                    if (penalty == 3) {
+                    if (Player.penalty == 3) {
                         Player.health--;
-                        penalty = 0;
+                        Player.penalty = 0;
                     }
                     stopTimer();
                 }
-            }
+
         }
     };
 
@@ -76,9 +77,9 @@ public class Bamboo {
 
     public static void addBamboo(){
             Game.arrayBamboo.add(new Bamboo());
-        if(score>=5)
+        if(Player.score>=5)
             Game.arrayBamboo.add(new Bamboo());
-        if(score>=10)
+        if(Player.score>=10)
             Game.arrayBamboo.add(new Bamboo());
     }
 
@@ -99,12 +100,12 @@ public class Bamboo {
     public static void takeBamboo(Bamboo bamboo){
         if(Game.arrayBamboo.size()>1) {
             Game.arrayBamboo.remove(bamboo);
-            score++;
+            Player.score++;
             bamboo.stopTimer();
          }
         else {
             Game.arrayBamboo.remove(bamboo);
-            score++;
+            Player.score++;
             addBamboo();
             bamboo.stopTimer();
         }
