@@ -10,7 +10,7 @@ public abstract class Platform {
 
     public static ArrayList<Platform> addPlatforms(){
         ArrayList<Platform> platforms = new ArrayList<>();
-        platforms.add(new LongPlatform(232,404));
+        platforms.add(new LongPlatform(232,420));
         platforms.add(new ShortPlatform(467,315));
         platforms.add(new LongPlatform(516,207));
         platforms.add(new MovePlatformX(300,144));

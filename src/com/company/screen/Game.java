@@ -4,6 +4,7 @@ import com.company.Main;
 import com.company.graphics.GameControlPanel;
 import com.company.graphics.Sprite;
 import com.company.object.Bamboo;
+import com.company.object.Enemy;
 import com.company.object.Ladder;
 import com.company.object.Player;
 import com.company.object.platform.Platform;
@@ -24,6 +25,7 @@ public class Game extends Canvas implements Runnable,Scene {
     private static final long SECOND = 1000/60;
     private Sprite background = new Sprite("background.jpg");
     public static ArrayList<Platform> arrayplatform;
+    public static ArrayList<Enemy> arrayenemy;
     public static Ladder ladder1 ;
     public static Ladder ladder2 ;
     private Player player;
@@ -39,6 +41,7 @@ public class Game extends Canvas implements Runnable,Scene {
         ladder2= new Ladder(924,314);
         player = new Player();
         arrayBamboo=new ArrayList<>();
+        arrayenemy = Enemy.addEnemy();
         isPause = false;
         sound= new Sound(new File("res/Pin.wav"));
         game= new Thread(this);
@@ -85,6 +88,7 @@ public class Game extends Canvas implements Runnable,Scene {
         ladder1.drawImage(g);
         ladder2.drawImage(g);
         Bamboo.render(g);
+        Enemy.render(g, arrayenemy);
         player.render(g);
         g.dispose();
         bs.show();

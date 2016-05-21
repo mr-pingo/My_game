@@ -83,7 +83,7 @@ public class Player {
         Iterator<Platform> i = Game.arrayplatform.iterator();
         while(i.hasNext()) {
             Platform timePlatform = i.next();
-            if (((getX()+getWidth()) >(timePlatform.getX())) && (x < (timePlatform.getX()+timePlatform.getWIDTH())) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
+            if (((getX()+getWidth()) >(timePlatform.getX()+15)) && (getX() < (timePlatform.getX()+timePlatform.getWIDTH()-15)) && ((getY()+getHeight()) >= timePlatform.getY())&&((getY()+getHeight())<=(timePlatform.getY()+timePlatform.getHEIGHT()))) {
                 //������� ��� ������ ����� �� ���������
                 playerGravity=false;
                 y=timePlatform.getY()-getHeight();
@@ -91,20 +91,21 @@ public class Player {
                     x += (int)(Math.cos(MovePlatformX.a)*2);
                 }
             }
-//            if (((getX()+getWidth()) >= (timePlatform.getX())) && (x <=(timePlatform.getX()+timePlatform.getWIDTH())) && (getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())&& (getY() > (timePlatform.getY())))) {
-//                //������� ��� ������ ����������� ���������� ������� �� ���������
-//                space=false;
-//                jump=21;
+//            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
+//                if(keyHandler.isRightpressent())
+//                    x-=speed;
+//                //������� ��� ������ ����������� �����
 //            }
-            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) == (timePlatform.getX()))&&((getY()+getHeight())>=timePlatform.getY())) {
-                if(keyHandler.isRightpressent())
-                    x-=speed;
-                //������� ��� ������ ����������� �����
+            if ((getY() < (timePlatform.getY()+timePlatform.getHEIGHT())) && ((getX()+getWidth()) >= (timePlatform.getX()))&&((getY()+getHeight())>timePlatform.getY()) && (getX()+getWidth()<=(timePlatform.getX()+15))) {
+                x = timePlatform.getX()-getWidth();
             }
-            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
-                //������� ��� ������ ����������� ������
-                if(keyHandler.isLeftpressent())
-                    x+=speed;
+//            if ((getY() <= (timePlatform.getY()+timePlatform.getHEIGHT())) && (x == (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>=timePlatform.getY())){
+//                //������� ��� ������ ����������� ������
+//                if(keyHandler.isLeftpressent())
+//                    x+=speed;
+//            }
+            if ((getY() < (timePlatform.getY()+timePlatform.getHEIGHT())) && (getX() <= (timePlatform.getX()+timePlatform.getWIDTH()))&&((getY()+getHeight())>timePlatform.getY())&& (getX()>=(timePlatform.getX()+timePlatform.getWIDTH()-15))){
+                    x = timePlatform.getX()+timePlatform.getWIDTH();
             }
         }
         if(((getX()+getWidth()<=Game.ladder1.getX()+Game.ladder1.getWIDTH())&&(getX()>=Game.ladder1.getX())&&(getY()<=Game.ladder1.getY()+Game.ladder1.getHEIGHT())&&(getY()+getHeight()>=Game.ladder1.getY()))||
@@ -148,6 +149,15 @@ public class Player {
             if(Math.abs((getX()+getWidth()/2)-(timeBamboo.getX()+timeBamboo.getWidth()/2))<=(getWidth()/2+timeBamboo.getWidth()/2)&&(Math.abs((getY()+getHeight()/2)-(timeBamboo.getY()+timeBamboo.getHeight()/2))<=(getHeight()/2+timeBamboo.getHeight()/2))) {
                 Bamboo.takeBamboo(timeBamboo);
                 return;
+            }
+        }
+        Iterator<Enemy> iter = Game.arrayenemy.iterator();
+        while (iter.hasNext()) {
+            Enemy timeEnemy = iter.next();
+            if(Math.abs((getX()+getWidth()/2)-(timeEnemy.getX()+timeEnemy.getWIDTH()/2)-15)<=(getWidth()/2+timeEnemy.getWIDTH()/2)&&(Math.abs((getY()+getHeight()/2)-(timeEnemy.getY()+timeEnemy.getHEIGHT()/2)-15)<=(getHeight()/2+timeEnemy.getHEIGHT()/2))) {
+                x = 0;
+                y = 415;
+                health--;
             }
         }
     }

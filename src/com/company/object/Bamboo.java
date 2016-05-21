@@ -29,7 +29,6 @@ public class Bamboo {
                 deleteBamboo();
             }
                 time++;
-                System.out.println(time);
                 if (time == 7) {
                     deleteBamboo();
                     Player.penalty++;
