@@ -25,9 +25,8 @@ public class Bamboo {
         @Override
         public  void run() {
             if (Game.isPause) {
-                stopTimer();
-                deleteBamboo();
-            }
+
+            }else{
                 time++;
                 if (time == 7) {
                     deleteBamboo();
@@ -42,6 +41,7 @@ public class Bamboo {
                     stopTimer();
                 }
 
+        }
         }
     };
 

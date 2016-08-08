@@ -154,7 +154,7 @@ public class Player {
         Iterator<Enemy> iter = Game.arrayenemy.iterator();
         while (iter.hasNext()) {
             Enemy timeEnemy = iter.next();
-            if(Math.abs((getX()+getWidth()/2)-(timeEnemy.getX()+timeEnemy.getWIDTH()/2)-15)<=(getWidth()/2+timeEnemy.getWIDTH()/2)&&(Math.abs((getY()+getHeight()/2)-(timeEnemy.getY()+timeEnemy.getHEIGHT()/2)-15)<=(getHeight()/2+timeEnemy.getHEIGHT()/2))) {
+            if(Math.abs((getX()+getWidth()/2)-(timeEnemy.getX()+timeEnemy.getWIDTH()/2)-35)<=(getWidth()/2+timeEnemy.getWIDTH()/2)&&(Math.abs((getY()+getHeight()/2)-(timeEnemy.getY()+timeEnemy.getHEIGHT()/2)-35)<=(getHeight()/2+timeEnemy.getHEIGHT()/2))) {
                 x = 0;
                 y = 415;
                 health--;

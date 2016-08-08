@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         menu = new GeneralMenu();
         new Display(NAME_GAME,WIDTH, HEALTH,menu);
-        menu.startMenu();
+        menu.start();
 
     }
 }

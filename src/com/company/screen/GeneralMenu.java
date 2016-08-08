@@ -28,8 +28,7 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
 
     @Override
     public void run() {
-        addMouseListener(this);
-        addMouseMotionListener(this);
+        Display.setMouseListener(this,this);
         while (running) {
             render(Display.bs);
         }
@@ -37,7 +36,7 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
 
 
     @Override
-    public synchronized void startMenu() {
+    public synchronized void start() {
         running=true;
         thread=new Thread(this);
         thread.start();
@@ -73,9 +72,8 @@ public class GeneralMenu extends Canvas implements Runnable,Scene, MouseListener
 
     public void startGame(){
         Game game = new Game();
-        game.startMenu();
-        removeMouseListener(this);
-        removeMouseMotionListener(this);
+        game.start();
+        Display.delMouseListener(this,this);
         stop();
     }
 

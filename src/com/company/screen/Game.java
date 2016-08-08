@@ -1,6 +1,5 @@
 package com.company.screen;
 
-import com.company.Main;
 import com.company.graphics.GameControlPanel;
 import com.company.graphics.Sprite;
 import com.company.object.Bamboo;
@@ -14,8 +13,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
 public class Game extends Canvas implements Runnable,Scene {
@@ -61,7 +58,7 @@ public class Game extends Canvas implements Runnable,Scene {
             render(Display.bs);
         }
     }
-    public synchronized void startMenu() {
+    public synchronized void start() {
         running = true;
         sound.play();
         Bamboo.addBamboo();
@@ -79,6 +76,18 @@ public class Game extends Canvas implements Runnable,Scene {
         ladder1=null;
         ladder2=null;
         sound=null;
+    }
+
+    public synchronized void pause(Pause pause) {
+        try {
+            pause.getPause().join();
+            while (player.getKeyHandler().isEscpressent()){
+                game.sleep(10);
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void render(BufferStrategy bs) {
         Graphics g = bs.getDrawGraphics();
@@ -107,11 +116,14 @@ public class Game extends Canvas implements Runnable,Scene {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(player.getKeyHandler().isEscpressent()){
-                isPause=true;
-                Main.menu.startMenu();
-                stop();
+            if(player.getKeyHandler().isEscpressent()) {
+                if (isPause == false) {
+                    isPause = true;
+                    Pause pause = new Pause();
+                    pause.start();
+                    pause(pause);
                 }
+            }
                 //isPause=false;
             }
             if(Player.health==0)

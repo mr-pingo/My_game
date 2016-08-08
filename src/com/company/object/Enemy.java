@@ -38,7 +38,7 @@ public class Enemy {
     public static ArrayList<Enemy> addEnemy() {
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy(510,140));
-        enemies.add(new Enemy(310, 353));
+        enemies.add(new Enemy(370, 353));
         return enemies;
     }
 
@@ -46,13 +46,13 @@ public class Enemy {
         switch (direction){
             case "right":
                 x += speed;
-                if ((x+WIDTH == 789)||(x+WIDTH == 510)){
+                if ((x+WIDTH == 789)||(x+WIDTH == 580)){
                     direction = "left";
                 }
                 return;
             case "left":
                 x -= speed;
-                if ((x == 510)||(x == 210)) {
+                if ((x == 510)||(x == 280)) {
                     direction = "right";
                 }
                 return;
